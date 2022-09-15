@@ -50,8 +50,8 @@ class DataInfo:
         print(self.duplicated().any().sum())
         #logger.info('data info: checking duplication')
     # datatyps
-    def get_tyep(self):
-        print(self.dtype)
+    def get_types(self):
+        print(self.dtypes)
     # covnverting
     #logger.info('data info: displying datatype')
     def convert_labels(df):
