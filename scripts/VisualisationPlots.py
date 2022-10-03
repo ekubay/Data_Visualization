@@ -129,3 +129,21 @@ class VisualiseDf:
         # Remove legend title
         sns.despine(fig=None, ax=None, top=True, right=True, left=True, bottom=False, offset=None, trim=False)
         plt.gca().legend().set_title(column);
+    #pie plot
+    def pie_plot(column:pd.DataFrame, title):
+        plt.figure(figsize=(10,6))
+        sorted_counts = column.value_counts()
+        plt.pie(sorted_counts, labels = sorted_counts.index, startangle = 90,
+                counterclock = False, autopct='%1.2f%%');
+        plt.axis('square')
+        #plt.legend('user_type')
+        plt.title(title, fontsize=15, fontweight ='bold')
+        plt.show()
+    def plot_layout(df,column,title):
+        ax = sns.countplot(x=column, hue=column, dodge=False, data=df)
+        ax.set_title(title, fontsize=18, fontweight='bold', color='black')
+        ax.set_xlabel('member_gender', fontsize=15, color='black')
+        ax.set_ylabel('count', fontsize=15, color='black')
+        ax.figure.set_facecolor('0.7')
+        plt.tight_layout()
+        plt.show()
