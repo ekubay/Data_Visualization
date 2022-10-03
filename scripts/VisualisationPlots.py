@@ -1,6 +1,4 @@
 import sys
-#sys.path.insert(0, '/AB_Testing')
-
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -17,25 +15,18 @@ class VisualiseDf:
     # returns: histogram plot (in the color green by default)
     def plot_hist(self, df:pd.DataFrame, column:str, color:str='cornflowerblue')->None:
         sns.displot(data=df, x=column, color=color, kde=True, height=5, aspect=2)
-        plt.xticks(rotation=75, fontsize=14)
-        # plt.yticks( fontsize=14)
-
+        plt.xticks(rotation=90, fontsize=14)
+        plt.yticks( fontsize=14)
     def plot_hist(df:pd.DataFrame, column:str, color:str)->None:
         sns.displot(data=df, x=column, color=color, kde=True, height=5, aspect=2)
         plt.title(f'Distribution of {column}', size=20, fontweight='bold')
         plt.xticks(rotation=75, fontsize=14)
         plt.show()
 
-    # # plots the distribution from a histogram plot, where the data is ordered by hour
-    # def plot_dist(self, df:pd.DataFrame,)->None:
-    #     hours_bin_values = np.arrange(start=0, stop=23, step=1)
-    #     np.histogram
-    
-
     # plots a bar graph
     # parameters: dataframe, dependent col, independent col, xlabel, ylabel
     # returns: plot of bar graph
-    def plot_bar(df:pd.DataFrame, x_col:str, y_col:str, title:str, xlabel:str, ylabel:str)->None:
+    def plot_bar(df, x_col:str, y_col:str, title:str, xlabel:str, ylabel:str)->None:
         plt.figure(figsize=(12, 7))
         sns.barplot(data = df, x=x_col, y=y_col)
         plt.title(title, size=20)
@@ -95,3 +86,46 @@ class VisualiseDf:
                     split=True, inner=y_col, linewidth=1,
                     palette={"Yes": "b", "No": ".85"})
         sns.despine(left=True)
+    
+    # to make it esly discriptive we can represent it as folows 
+    # function 
+    def plot_discriptive_count(df:pd.DataFrame, column: pd.DataFrame)-> None:
+        base_color = sns.color_palette()[0]
+        type_counts = column.value_counts()
+        type_order = type_counts.index
+        ax=sns.countplot(data=df, x=column.loc[0:], color=base_color, order=type_order);
+        n_user = column.value_counts().sum()
+
+        # get the current tick locations and labels
+        locs, labels = plt.xticks(rotation=0) 
+
+        # loop through each pair of locations and labels
+        for loc, label in zip(locs, labels):
+
+            # get the text property for the label to get the correct count
+            count = type_counts[label.get_text()]
+            pct_string = '{:0.1f}%'.format(100*count/n_user)
+            plt.text(loc, count-8, pct_string, va='top', ha='center', color = 'w', fontsize=12)
+        #plt.title(f'Distribution', size=20, fontweight='bold')
+    # Remove unnecessary features 
+        ax.spines['top'].set_visible(True)
+        ax.spines['right'].set_visible(True)
+        ax.spines['left'].set_visible(True)
+        plt.yticks([])
+        # plt.ylabel("t")
+        # plt.xlabel('')
+        #plt.legend()
+
+        # Show the plot
+        plt.show();
+    # code for 
+    def bar_plot(df, column,orders,heu1,title):
+        plt.figure(figsize=(10,6))
+        plt.title(title, size=20, fontweight='bold')
+        chart = sns.countplot(data=df, x=column, order=orders, hue=heu1)
+
+        chart.set(xlabel=column, ylabel='')
+
+        # Remove legend title
+        sns.despine(fig=None, ax=None, top=True, right=True, left=True, bottom=False, offset=None, trim=False)
+        plt.gca().legend().set_title(column);
