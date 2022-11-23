@@ -6,6 +6,7 @@
 >This data set includes information about individual rides made in a bike-sharing system covering the greater San Francisco Bay area.
 
 ## Summary of Findings
+![](BI_Dashboard/BI_dashboard.png)
 
 > Majority (90.5%) of the user type are subscribers. Customer are only 9.5% of total user types
 
